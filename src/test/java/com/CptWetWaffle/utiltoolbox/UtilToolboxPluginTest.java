@@ -1,13 +1,13 @@
-package com.example;
+package com.CptWetWaffle.utiltoolbox;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-public class ExamplePluginTest
+public class UtilToolboxPluginTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(ExamplePlugin.class);
+		ExternalPluginManager.loadBuiltin(UtilToolboxPlugin.class);
 		RuneLite.main(args);
 	}
 }
