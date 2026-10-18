@@ -2,6 +2,7 @@ package com.CptWetWaffle.utiltoolbox;
 
 import com.CptWetWaffle.utiltoolbox.tools.Tool;
 import com.CptWetWaffle.utiltoolbox.tools.mousetabbinds.MouseTabBindsTool;
+import com.CptWetWaffle.utiltoolbox.tools.prayerflash.PrayerFlashTool;
 import com.google.inject.Provides;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,9 @@ public class UtilToolboxPlugin extends Plugin
 	@Inject
 	private MouseTabBindsTool mouseTabBindsTool;
 
+	@Inject
+	private PrayerFlashTool prayerFlashTool;
+
 	private List<Tool> tools;
 	private final Set<Tool> running = new HashSet<>();
 
@@ -36,7 +40,7 @@ public class UtilToolboxPlugin extends Plugin
 	protected void startUp()
 	{
 		// To add a tool: inject it above, list it here, and give it a toggle in UtilToolboxConfig.
-		tools = List.of(mouseTabBindsTool);
+		tools = List.of(mouseTabBindsTool, prayerFlashTool);
 		syncTools();
 	}
 
