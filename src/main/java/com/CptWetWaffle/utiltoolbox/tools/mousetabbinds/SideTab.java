@@ -1,35 +1,41 @@
 package com.CptWetWaffle.utiltoolbox.tools.mousetabbinds;
 
-import com.CptWetWaffle.utiltoolbox.UtilToolboxConfig;
-import java.util.function.Function;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.runelite.api.gameval.InterfaceID;
 
 /**
- * Side panel tab stones, with the widget id of each in the fixed, resizable classic and resizable modern layouts.
+ * Side panel tabs a mouse button can open, with the widget id of each tab stone in the fixed, resizable classic and
+ * resizable modern layouts.
  */
 @Getter
 @RequiredArgsConstructor
-enum TabStone
+public enum SideTab
 {
-	COMBAT(UtilToolboxConfig::mouseTabCombat,
+	NONE("None", -1, -1, -1),
+	COMBAT("Combat Options",
 		InterfaceID.Toplevel.STONE0, InterfaceID.ToplevelOsrsStretch.STONE0, InterfaceID.ToplevelPreEoc.STONE0),
-	SKILLS(UtilToolboxConfig::mouseTabSkills,
+	SKILLS("Skills",
 		InterfaceID.Toplevel.STONE1, InterfaceID.ToplevelOsrsStretch.STONE1, InterfaceID.ToplevelPreEoc.STONE1),
-	QUESTS(UtilToolboxConfig::mouseTabQuests,
+	QUESTS("Quest List",
 		InterfaceID.Toplevel.STONE2, InterfaceID.ToplevelOsrsStretch.STONE2, InterfaceID.ToplevelPreEoc.STONE2),
-	INVENTORY(UtilToolboxConfig::mouseTabInventory,
+	INVENTORY("Inventory",
 		InterfaceID.Toplevel.STONE3, InterfaceID.ToplevelOsrsStretch.STONE3, InterfaceID.ToplevelPreEoc.STONE3),
-	EQUIPMENT(UtilToolboxConfig::mouseTabEquipment,
+	EQUIPMENT("Worn Equipment",
 		InterfaceID.Toplevel.STONE4, InterfaceID.ToplevelOsrsStretch.STONE4, InterfaceID.ToplevelPreEoc.STONE4),
-	PRAYER(UtilToolboxConfig::mouseTabPrayer,
+	PRAYER("Prayer",
 		InterfaceID.Toplevel.STONE5, InterfaceID.ToplevelOsrsStretch.STONE5, InterfaceID.ToplevelPreEoc.STONE5),
-	MAGIC(UtilToolboxConfig::mouseTabMagic,
+	MAGIC("Spellbook",
 		InterfaceID.Toplevel.STONE6, InterfaceID.ToplevelOsrsStretch.STONE6, InterfaceID.ToplevelPreEoc.STONE6);
 
-	private final Function<UtilToolboxConfig, MouseButton> binding;
+	private final String name;
 	private final int fixedWidgetId;
 	private final int resizableClassicWidgetId;
 	private final int resizableModernWidgetId;
+
+	@Override
+	public String toString()
+	{
+		return name;
+	}
 }

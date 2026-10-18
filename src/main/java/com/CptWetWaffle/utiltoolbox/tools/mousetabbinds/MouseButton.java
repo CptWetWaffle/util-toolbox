@@ -1,24 +1,22 @@
 package com.CptWetWaffle.utiltoolbox.tools.mousetabbinds;
 
+import com.CptWetWaffle.utiltoolbox.UtilToolboxConfig;
 import java.awt.event.MouseEvent;
+import java.util.function.Function;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Mouse buttons that can be bound, with the config item holding the tab each one opens.
+ */
 @Getter
 @RequiredArgsConstructor
-public enum MouseButton
+enum MouseButton
 {
-	NONE("None", MouseEvent.NOBUTTON),
-	MIDDLE("Middle click", MouseEvent.BUTTON2),
-	BUTTON_4("Mouse button 4", 4),
-	BUTTON_5("Mouse button 5", 5);
+	MIDDLE(MouseEvent.BUTTON2, UtilToolboxConfig::mouseTabMiddle),
+	BUTTON_4(4, UtilToolboxConfig::mouseTabButton4),
+	BUTTON_5(5, UtilToolboxConfig::mouseTabButton5);
 
-	private final String name;
 	private final int awtButton;
-
-	@Override
-	public String toString()
-	{
-		return name;
-	}
+	private final Function<UtilToolboxConfig, SideTab> binding;
 }

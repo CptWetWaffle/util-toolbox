@@ -20,8 +20,6 @@ import net.runelite.client.input.MouseManager;
 @Singleton
 public class MouseTabBindsTool extends MouseAdapter implements Tool
 {
-	private static final TabStone[] STONES = TabStone.values();
-
 	@Inject
 	private Client client;
 
@@ -61,15 +59,15 @@ public class MouseTabBindsTool extends MouseAdapter implements Tool
 	@Override
 	public MouseEvent mousePressed(MouseEvent e)
 	{
-		final TabStone stone = findBound(e.getButton());
-		if (stone == null || client.getGameState() != GameState.LOGGED_IN)
+		final SideTab tab = findBound(e.getButton());
+		if (tab == SideTab.NONE || client.getGameState() != GameState.LOGGED_IN)
 		{
 			return e;
 		}
 
 		consumedButton = e.getButton();
 		e.consume();
-		clientThread.invoke(() -> openTab(stone));
+		clientThread.invoke(() -> openTab(tab));
 		return e;
 	}
 
@@ -94,26 +92,21 @@ public class MouseTabBindsTool extends MouseAdapter implements Tool
 		return e;
 	}
 
-	private TabStone findBound(int awtButton)
+	private SideTab findBound(int awtButton)
 	{
-		if (awtButton == MouseEvent.NOBUTTON)
+		for (MouseButton button : MouseButton.values())
 		{
-			return null;
-		}
-
-		for (TabStone stone : STONES)
-		{
-			if (stone.getBinding().apply(config).getAwtButton() == awtButton)
+			if (button.getAwtButton() == awtButton)
 			{
-				return stone;
+				return button.getBinding().apply(config);
 			}
 		}
-		return null;
+		return SideTab.NONE;
 	}
 
-	private void openTab(TabStone stone)
+	private void openTab(SideTab tab)
 	{
-		final Widget widget = findStoneWidget(stone);
+		final Widget widget = findStoneWidget(tab);
 		if (widget == null)
 		{
 			return;
@@ -135,9 +128,9 @@ public class MouseTabBindsTool extends MouseAdapter implements Tool
 		}
 	}
 
-	private Widget findStoneWidget(TabStone stone)
+	private Widget findStoneWidget(SideTab tab)
 	{
-		final int[] ids = {stone.getFixedWidgetId(), stone.getResizableClassicWidgetId(), stone.getResizableModernWidgetId()};
+		final int[] ids = {tab.getFixedWidgetId(), tab.getResizableClassicWidgetId(), tab.getResizableModernWidgetId()};
 		for (int id : ids)
 		{
 			final Widget widget = client.getWidget(id);
