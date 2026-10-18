@@ -4,6 +4,7 @@ import com.CptWetWaffle.utiltoolbox.UtilToolboxConfig;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.function.LongSupplier;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import net.runelite.api.Client;
@@ -16,13 +17,18 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 @Singleton
 class PrayerFlashOverlay extends Overlay
 {
-	private static final long PERIOD_MS = 1200;
+	static final long PERIOD_MS = 1200;
 
 	private final Client client;
 	private final UtilToolboxConfig config;
 
+	/**
+	 * Time source, replaceable so tests can pin the flash to a point in its cycle.
+	 */
+	LongSupplier clock = System::currentTimeMillis;
+
 	@Inject
-	private PrayerFlashOverlay(Client client, UtilToolboxConfig config)
+	PrayerFlashOverlay(Client client, UtilToolboxConfig config)
 	{
 		this.client = client;
 		this.config = config;
@@ -40,7 +46,7 @@ class PrayerFlashOverlay extends Overlay
 		}
 
 		// Triangle wave: fades in and out once per period
-		final double phase = (System.currentTimeMillis() % PERIOD_MS) / (double) PERIOD_MS;
+		final double phase = (clock.getAsLong() % PERIOD_MS) / (double) PERIOD_MS;
 		final double pulse = 1 - Math.abs(2 * phase - 1);
 
 		final Color color = config.lowPrayerFlashColor();
