@@ -2,7 +2,7 @@ package com.CptWetWaffle.utiltoolbox.tools.mousetabbinds;
 
 import com.CptWetWaffle.utiltoolbox.UtilToolboxConfig;
 import java.awt.event.MouseEvent;
-import javax.swing.JPanel;
+import java.util.concurrent.atomic.AtomicBoolean;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.MenuAction;
@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -50,8 +51,6 @@ public class MouseTabBindsToolTest
 
 	@InjectMocks
 	private MouseTabBindsTool tool;
-
-	private final JPanel source = new JPanel();
 
 	@Before
 	public void setUp()
@@ -199,8 +198,8 @@ public class MouseTabBindsToolTest
 		doReturn(SideTab.INVENTORY).when(config).mouseTabButton4();
 		tool.mousePressed(press(4));
 
-		final MouseEvent release = event(MouseEvent.MOUSE_RELEASED, 4);
-		final MouseEvent click = event(MouseEvent.MOUSE_CLICKED, 4);
+		final MouseEvent release = event(4);
+		final MouseEvent click = event(4);
 		tool.mouseReleased(release);
 		tool.mouseClicked(click);
 
@@ -214,7 +213,7 @@ public class MouseTabBindsToolTest
 		doReturn(SideTab.INVENTORY).when(config).mouseTabButton4();
 		tool.mousePressed(press(4));
 
-		final MouseEvent release = event(MouseEvent.MOUSE_RELEASED, MouseEvent.BUTTON1);
+		final MouseEvent release = event(MouseEvent.BUTTON1);
 		tool.mouseReleased(release);
 
 		assertFalse(release.isConsumed());
@@ -223,7 +222,7 @@ public class MouseTabBindsToolTest
 	@Test
 	public void leavesReleasesAloneWhenNothingWasConsumed()
 	{
-		final MouseEvent release = event(MouseEvent.MOUSE_RELEASED, 4);
+		final MouseEvent release = event(4);
 
 		tool.mouseReleased(release);
 
@@ -237,7 +236,7 @@ public class MouseTabBindsToolTest
 		tool.mousePressed(press(4));
 		tool.shutDown();
 
-		final MouseEvent release = event(MouseEvent.MOUSE_RELEASED, 4);
+		final MouseEvent release = event(4);
 		tool.mouseReleased(release);
 
 		assertFalse(release.isConsumed());
@@ -245,12 +244,24 @@ public class MouseTabBindsToolTest
 
 	private MouseEvent press(int button)
 	{
-		return event(MouseEvent.MOUSE_PRESSED, button);
+		return event(button);
 	}
 
-	private MouseEvent event(int type, int button)
+	/**
+	 * A mock rather than a real event: AWT refuses to build events for buttons above 3 without a display.
+	 */
+	private MouseEvent event(int button)
 	{
-		return new MouseEvent(source, type, 0L, 0, 10, 10, 1, false, button);
+		final MouseEvent event = mock(MouseEvent.class);
+		final AtomicBoolean consumed = new AtomicBoolean();
+		when(event.getButton()).thenReturn(button);
+		when(event.isConsumed()).thenAnswer(invocation -> consumed.get());
+		doAnswer(invocation ->
+		{
+			consumed.set(true);
+			return null;
+		}).when(event).consume();
+		return event;
 	}
 
 	private Widget stone(int widgetId, boolean hidden, String... actions)
