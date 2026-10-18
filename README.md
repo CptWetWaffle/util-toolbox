@@ -1,4 +1,7 @@
 # Util Toolbox
+
+[![CI](https://github.com/CptWetWaffle/util-toolbox/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/CptWetWaffle/util-toolbox/actions/workflows/ci.yml?query=branch%3Amaster)
+
 A toolbox of small utilities missing from RuneLite.
 
 ## Tools
