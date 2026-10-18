@@ -59,7 +59,11 @@ a pull request, or merge locally with `--ff-only` and push.
 - Match the style of the surrounding code, including whitespace,
   indentation and naming. Where existing code and the language's usual
   conventions disagree, follow the existing code.
-- Add tests for new functionality when practical.
+- Add tests for every new feature and bug fix. Cover the behavior you
+  changed, including the edge cases.
+- Run `./gradlew test` before you open a pull request, and make sure it
+  passes. CI runs the same tests on every pull request, and a pull
+  request cannot merge while they fail.
 - Prefer the standard library, or a few lines of your own code, over a
   new dependency for something simple.
 - Keep whitespace-only edits out of commits that change behavior. They
@@ -135,7 +139,13 @@ For more on writing good messages, read
 
 ## Testing
 
-Plugin behavior can only be confirmed in-game. State what you tested and
-how in the pull request. A clean JVM start is not a passing test.
+Run the unit tests with `./gradlew test`. They use JUnit 4 and Mockito,
+and live next to the code they cover under `src/test/java`. Test the
+logic by mocking `Client` and the other RuneLite services, as the
+existing tests do.
+
+Unit tests cannot confirm what the game does, so plugin behavior also
+needs an in-game check. State what you tested and how in the pull
+request. A clean JVM start is not a passing test.
 
 Run the development client with `./gradlew run`.
