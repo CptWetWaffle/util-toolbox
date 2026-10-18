@@ -1,6 +1,6 @@
 package com.CptWetWaffle.utiltoolbox;
 
-import com.CptWetWaffle.utiltoolbox.tools.mousetabbinds.MouseButton;
+import com.CptWetWaffle.utiltoolbox.tools.mousetabbinds.SideTab;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -32,86 +32,38 @@ public interface UtilToolboxConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "mouseTabCombat",
-		name = "Combat Options",
-		description = "Mouse button that opens the Combat Options tab",
+		keyName = "mouseTabMiddle",
+		name = "Middle click",
+		description = "Tab opened by middle click",
 		section = mouseTabBindsSection,
 		position = 1
 	)
-	default MouseButton mouseTabCombat()
+	default SideTab mouseTabMiddle()
 	{
-		return MouseButton.NONE;
+		return SideTab.NONE;
 	}
 
 	@ConfigItem(
-		keyName = "mouseTabSkills",
-		name = "Skills",
-		description = "Mouse button that opens the Skills tab",
+		keyName = "mouseTabButton4",
+		name = "Mouse button 4",
+		description = "Tab opened by mouse button 4",
 		section = mouseTabBindsSection,
 		position = 2
 	)
-	default MouseButton mouseTabSkills()
+	default SideTab mouseTabButton4()
 	{
-		return MouseButton.NONE;
+		return SideTab.NONE;
 	}
 
 	@ConfigItem(
-		keyName = "mouseTabQuests",
-		name = "Quest List",
-		description = "Mouse button that opens the Quest List tab",
+		keyName = "mouseTabButton5",
+		name = "Mouse button 5",
+		description = "Tab opened by mouse button 5",
 		section = mouseTabBindsSection,
 		position = 3
 	)
-	default MouseButton mouseTabQuests()
+	default SideTab mouseTabButton5()
 	{
-		return MouseButton.NONE;
-	}
-
-	@ConfigItem(
-		keyName = "mouseTabInventory",
-		name = "Inventory",
-		description = "Mouse button that opens the Inventory tab",
-		section = mouseTabBindsSection,
-		position = 4
-	)
-	default MouseButton mouseTabInventory()
-	{
-		return MouseButton.NONE;
-	}
-
-	@ConfigItem(
-		keyName = "mouseTabEquipment",
-		name = "Worn Equipment",
-		description = "Mouse button that opens the Worn Equipment tab",
-		section = mouseTabBindsSection,
-		position = 5
-	)
-	default MouseButton mouseTabEquipment()
-	{
-		return MouseButton.NONE;
-	}
-
-	@ConfigItem(
-		keyName = "mouseTabPrayer",
-		name = "Prayer",
-		description = "Mouse button that opens the Prayer tab",
-		section = mouseTabBindsSection,
-		position = 6
-	)
-	default MouseButton mouseTabPrayer()
-	{
-		return MouseButton.NONE;
-	}
-
-	@ConfigItem(
-		keyName = "mouseTabMagic",
-		name = "Spellbook",
-		description = "Mouse button that opens the Spellbook tab",
-		section = mouseTabBindsSection,
-		position = 7
-	)
-	default MouseButton mouseTabMagic()
-	{
-		return MouseButton.NONE;
+		return SideTab.NONE;
 	}
 }
