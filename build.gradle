@@ -35,6 +35,11 @@ tasks.withType(JavaCompile).configureEach {
 	options.release.set(11)
 }
 
+test {
+	// CI has no display; run tests headless everywhere so local runs match
+	systemProperty 'java.awt.headless', 'true'
+}
+
 tasks.register('run', JavaExec) {
 	classpath = sourceSets.test.runtimeClasspath
 	mainClass = pluginMainClass
